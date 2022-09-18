@@ -22,44 +22,49 @@ rates = {}
 
 with open('rates.csv', 'w') as csv_file:
     csv_writer = writer(csv_file)
-    headers = ['Date', 'Fixed', 'Variable']
+    headers = ['Month', 'Fixed', 'Variable']
     csv_writer.writerow(headers)
 
-for fixDate in fixedDates:
-    fixedIndex = fixedDates.index(fixDate)
-    digitMonth = datetime.fromtimestamp(fixDate/1000).strftime('%m')
-    year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
-    month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
+    for fixDate in fixedDates:
+        fixedIndex = fixedDates.index(fixDate)
+        year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
+        month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
 
-    if int(year) < 2006:
-        continue
-    elif int(year) == 2006 and int(digitMonth) <= 3:
-        continue
-    if year not in rates:
-        rates[year] = {month: {'fixed': fixedRate[fixedIndex - 1]}}
-    elif month not in rates[year]:
-        rates[year][month] = {'fixed': fixedRate[fixedIndex - 1]}
-    elif 'fixed' not in rates[year][month]:
-        rates[year][month]['fixed'] = fixedRate[fixedIndex - 1]
-    else:
-        rates[year][month]['fixed'] = (
-            rates[year][month]['fixed'] + fixedRate[fixedIndex - 1]) / 2
+        if int(year) < 2006:
+            continue
+        if year not in rates:
+            rates[year] = {month: {'fixed': fixedRate[fixedIndex - 1]}}
+        elif month not in rates[year]:
+            rates[year][month] = {'fixed': fixedRate[fixedIndex - 1]}
+        elif 'fixed' not in rates[year][month]:
+            rates[year][month]['fixed'] = fixedRate[fixedIndex - 1]
+        else:
+            rates[year][month]['fixed'] = (
+                rates[year][month]['fixed'] + fixedRate[fixedIndex - 1]) / 2
 
-for varDate in variableDates:
-    varIndex = variableDates.index(varDate)
-    convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
-    year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
-    month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
+    for varDate in variableDates:
+        varIndex = variableDates.index(varDate)
+        year = datetime.fromtimestamp(varDate/1000).strftime('%Y')
+        month = datetime.fromtimestamp(varDate/1000).strftime('%B')
 
-    if year not in rates:
-        rates[year] = {month: {'variable': variableRate[varIndex - 1]}}
-    elif month not in rates[year]:
-        rates[year][month] = {'variable': variableRate[varIndex - 1]}
-    elif 'variable' not in rates[year][month]:
-        rates[year][month]['variable'] = variableRate[varIndex - 1]
-    else:
-        rates[year][month]['variable'] = (
-            rates[year][month]['variable'] + variableRate[varIndex - 1]) / 2
+        if year not in rates:
+            rates[year] = {month: {'variable': variableRate[varIndex - 1]}}
+        elif month not in rates[year]:
+            rates[year][month] = {'variable': variableRate[varIndex - 1]}
+        elif 'variable' not in rates[year][month]:
+            rates[year][month]['variable'] = variableRate[varIndex - 1]
+        else:
+            rates[year][month]['variable'] = (
+                rates[year][month]['variable'] + variableRate[varIndex - 1]) / 2
 
-for year in rates:
-    print(year)
+    print(rates)
+
+    for year in rates:
+        csv_writer.writerow([year])
+        for month in rates[year]:
+            try:
+                csv_writer.writerow(
+                    [month, rates[year][month]['fixed'], rates[year][month]['variable']])
+            except:
+                csv_writer.writerow(
+                    [month, rates[year][month]['fixed']])

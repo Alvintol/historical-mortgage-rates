@@ -24,7 +24,14 @@ variable = {}
 
 for date in fixedDates:
     index = fixedDates.index(date)
-    convertedDate = datetime.fromtimestamp(date/1000).strftime('%Y-%m-%d')
+    convertedDate = datetime.fromtimestamp(date/1000).strftime('%Y-%m')
+    
+    if convertedDate not in fixed:
+      fixed[convertedDate] = fixedRate[index -1]
+    
 
 
-    print('DATE:', convertedDate, 'INDEX:', index)
+    # print('DATE:', convertedDate, 'INDEX:', index)
+
+print(fixed)
+print(len(fixed))

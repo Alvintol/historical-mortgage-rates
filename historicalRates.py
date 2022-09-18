@@ -22,16 +22,17 @@ variableRate = variableData['best-5y-variable']
 fixed = {}
 variable = {}
 
-for date in fixedDates:
-    index = fixedDates.index(date)
-    convertedDate = datetime.fromtimestamp(date/1000).strftime('%Y-%m')
+for fixDate in fixedDates:
+    fixedIndex = fixedDates.index(fixDate)
+    convertFixDate = datetime.fromtimestamp(fixDate/1000).strftime('%Y-%m')
 
-    if convertedDate not in fixed:
-        fixed[convertedDate] = fixedRate[index - 1]
+    if convertFixDate not in fixed:
+        fixed[convertFixDate] = fixedRate[fixedIndex - 1]
     else:
-        fixed[convertedDate] = (fixed[convertedDate] + fixedRate[index - 1]) / 2
+        fixed[convertFixDate] = (fixed[convertFixDate] + fixedRate[fixedIndex - 1]) / 2
 
-    # print('DATE:', convertedDate, 'INDEX:', index)
-
-print(fixed)
-print(len(fixed))
+for varDate in variableDates:
+    varIndex = variableDates.index(varDate)
+    convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
+    
+    # print('DATE:', convertVarDate, 'INDEX:',  varIndex)

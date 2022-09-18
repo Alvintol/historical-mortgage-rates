@@ -1,7 +1,9 @@
 from requests import get
 from functools import reduce
 from csv import writer
+from datetime import datetime
 import json
+
 
 fixedResponse = get(
     'https://www.ratehub.ca/api/charts?callback=rh.Chart.jsonpDispatch&id=Chart_9EXxi&series=boc.5y-fixed-posted')
@@ -16,3 +18,13 @@ variableDates = variableData['date']
 
 fixedRate = fixedData['boc-5y-fixed-posted']
 variableRate = variableData['best-5y-variable']
+
+fixed = {}
+variable = {}
+
+for date in fixedDates:
+  index = fixedDates.index(date)
+  
+  
+  print('LENGTH:', len(fixedDates))
+  print('DATE:', date, 'INDEX:', index)

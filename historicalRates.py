@@ -25,11 +25,11 @@ variable = {}
 for date in fixedDates:
     index = fixedDates.index(date)
     convertedDate = datetime.fromtimestamp(date/1000).strftime('%Y-%m')
-    
-    if convertedDate not in fixed:
-      fixed[convertedDate] = fixedRate[index -1]
-    
 
+    if convertedDate not in fixed:
+        fixed[convertedDate] = fixedRate[index - 1]
+    else:
+        fixed[convertedDate] = (fixed[convertedDate] + fixedRate[index - 1]) / 2
 
     # print('DATE:', convertedDate, 'INDEX:', index)
 

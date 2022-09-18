@@ -24,7 +24,7 @@ variable = {}
 
 for date in fixedDates:
   index = fixedDates.index(date)
-  
+  convertedDate = datetime.fromtimestamp(date/1000)
   
   print('LENGTH:', len(fixedDates))
-  print('DATE:', date, 'INDEX:', index)
+  print('DATE:', convertedDate, 'INDEX:', index)

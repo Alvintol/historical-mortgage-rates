@@ -27,12 +27,12 @@ rates = {}
 
 for fixDate in fixedDates:
     fixedIndex = fixedDates.index(fixDate)
-    convertFixDate = datetime.fromtimestamp(fixDate/1000).strftime('%Y-%m')
+    convertFixDate = datetime.fromtimestamp(fixDate/1000).strftime('%m')
     year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
     month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
 
-    if int(year) >= 2006:
-      continue
+    if int(year) >= 2006 and int(convertFixDate) > 3:
+        continue
     elif year not in rates:
         rates[year] = {month: {'fixed': fixedRate[fixedIndex - 1]}}
     elif month not in rates[year]:
@@ -42,19 +42,23 @@ for fixDate in fixedDates:
     else:
         rates[year][month]['fixed'] = (
             rates[convertFixDate]['fixed'] + fixedRate[fixedIndex - 1]) / 2
+for varDate in variableDates:
+    varIndex = variableDates.index(varDate)
+    convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
+    year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
+    month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
+
+    if year not in rates:
+        rates[year] = {month: {'variable': variableRate[varIndex - 1]}}
+    elif month not in rates[year]:
+        rates[year][month] = {'variable': variableRate[varIndex - 1]}
+    elif 'variable' not in rates[year][month]:
+        rates[year][month]['variable'] = variableRate[varIndex - 1]
+    else:
+        rates[year][month]['variable'] = (
+            rates[year][month]['variable'] + variableRate[varIndex - 1]) / 2
+
 print(rates)
-# for varDate in variableDates:
-#     varIndex = variableDates.index(varDate)
-#     convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
-
-#     if convertVarDate not in rates:
-#         rates[convertVarDate] = {'variable': variableRate[varIndex - 1]}
-#     elif 'variable' not in rates[convertVarDate]:
-#         rates[convertVarDate]['variable'] = variableRate[varIndex - 1]
-#     else:
-#         rates[convertVarDate]['variable'] = (
-#             rates[convertVarDate]['variable'] + variableRate[varIndex - 1]) / 2
-
 # for date in rates:
 #     try:
 #         csv_writer.writerow(

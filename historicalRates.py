@@ -19,28 +19,36 @@ variableDates = variableData['date']
 fixedRate = fixedData['boc-5y-fixed-posted']
 variableRate = variableData['best-5y-variable']
 
-fixed = {}
-variable = {}
+rates = {}
+
+
+# with open('rates.csv', 'w') as csv_file:
+#   csv_writer = writer(csv_file)
+#   headers = ['Date', 'Fixed', 'Variable']
+#   csv_writer.writerow(headers)
 
 for fixDate in fixedDates:
     fixedIndex = fixedDates.index(fixDate)
     convertFixDate = datetime.fromtimestamp(fixDate/1000).strftime('%Y-%m')
-
-    if convertFixDate not in fixed:
-        fixed[convertFixDate] = fixedRate[fixedIndex - 1]
+    if convertFixDate not in rates:
+        rates[convertFixDate] = {'fixed': fixedRate[fixedIndex - 1]}
+    elif 'fixed' not in rates[convertFixDate]:
+        rates[convertFixDate]['fixed'] = fixedRate[fixedIndex - 1]
     else:
-        fixed[convertFixDate] = (
-            fixed[convertFixDate] + fixedRate[fixedIndex - 1]) / 2
+        rates[convertFixDate]['fixed'] = (
+            rates[convertFixDate]['fixed'] + fixedRate[fixedIndex - 1]) / 2
 
 for varDate in variableDates:
     varIndex = variableDates.index(varDate)
     convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
 
-    if convertVarDate not in variable:
-        variable[convertVarDate] = variableRate[varIndex - 1]
+    if convertVarDate not in rates:
+        rates[convertVarDate] = {'variable': variableRate[varIndex - 1]}
+    elif 'variable' not in rates[convertVarDate]:
+        rates[convertVarDate]['variable'] = variableRate[varIndex - 1]
     else:
-        variable[convertVarDate] = (
-            variable[convertVarDate] + variableRate[varIndex - 1]) / 2
+        rates[convertVarDate]['variable'] = (
+            rates[convertVarDate]['variable'] + variableRate[varIndex - 1]) / 2
 
-print(variable)
-# print('DATE:', convertVarDate, 'INDEX:',  varIndex)
+
+print(rates)

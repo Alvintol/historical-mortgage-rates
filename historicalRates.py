@@ -31,7 +31,9 @@ for fixDate in fixedDates:
     year = datetime.fromtimestamp(fixDate/1000).strftime('%Y')
     month = datetime.fromtimestamp(fixDate/1000).strftime('%B')
 
-    if year not in rates:
+    if int(year) >= 2006:
+      continue
+    elif year not in rates:
         rates[year] = {month: {'fixed': fixedRate[fixedIndex - 1]}}
     elif month not in rates[year]:
         rates[year][month] = {'fixed': fixedRate[fixedIndex - 1]}

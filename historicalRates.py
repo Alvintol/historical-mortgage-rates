@@ -23,8 +23,8 @@ fixed = {}
 variable = {}
 
 for date in fixedDates:
-  index = fixedDates.index(date)
-  convertedDate = datetime.fromtimestamp(date/1000)
-  
-  print('LENGTH:', len(fixedDates))
-  print('DATE:', convertedDate, 'INDEX:', index)
+    index = fixedDates.index(date)
+    convertedDate = datetime.fromtimestamp(date/1000).strftime('%Y-%m-%d')
+
+
+    print('DATE:', convertedDate, 'INDEX:', index)

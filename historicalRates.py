@@ -14,4 +14,5 @@ variableData = json.loads(variableResponse.text[23:-2])
 fixedDates = fixedData['date']
 variableDates = variableData['date']
 
-
+fixedRate = fixedData['boc-5y-fixed-posted']
+variableRate = variableData['best-5y-variable']

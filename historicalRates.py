@@ -29,10 +29,18 @@ for fixDate in fixedDates:
     if convertFixDate not in fixed:
         fixed[convertFixDate] = fixedRate[fixedIndex - 1]
     else:
-        fixed[convertFixDate] = (fixed[convertFixDate] + fixedRate[fixedIndex - 1]) / 2
+        fixed[convertFixDate] = (
+            fixed[convertFixDate] + fixedRate[fixedIndex - 1]) / 2
 
 for varDate in variableDates:
     varIndex = variableDates.index(varDate)
     convertVarDate = datetime.fromtimestamp(varDate/1000).strftime('%Y-%m')
-    
-    # print('DATE:', convertVarDate, 'INDEX:',  varIndex)
+
+    if convertVarDate not in variable:
+        variable[convertVarDate] = variableRate[varIndex - 1]
+    else:
+        variable[convertVarDate] = (
+            variable[convertVarDate] + variableRate[varIndex - 1]) / 2
+
+print(variable)
+# print('DATE:', convertVarDate, 'INDEX:',  varIndex)
